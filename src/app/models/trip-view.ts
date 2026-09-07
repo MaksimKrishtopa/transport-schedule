@@ -25,7 +25,8 @@ export interface TripView {
 export function toTripViews(segments: RaspSegment[]): TripView[] {
   return [...segments]
     .sort((left, right) => departureKey(left).localeCompare(departureKey(right)))
-    .map((segment, index) => toTripView(segment, index));
+    .map((segment, index) => toTripView(segment, index))
+    .filter((trip) => trip.timeRange || trip.route || trip.transportLabel || trip.number || trip.duration || trip.carrier);
 }
 
 function toTripView(segment: RaspSegment, index: number): TripView {
@@ -51,7 +52,7 @@ function departureKey(segment: RaspSegment): string {
 }
 
 function stationTitle(station?: RaspStation, terminal?: string | null): string {
-  const name = text(station?.short_title) || text(station?.popular_title) || text(station?.title);
+  const name = text(station?.popular_title) || text(station?.title) || text(station?.short_title);
   const terminalName = text(terminal);
   if (name && terminalName) {
     return `${name}, ${terminalName}`;
