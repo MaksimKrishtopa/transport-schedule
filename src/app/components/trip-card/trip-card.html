@@ -1,0 +1,28 @@
+<article class="trip">
+  @if (trip().timeRange; as timeRange) {
+    <p class="trip-time">{{ timeRange }}</p>
+  }
+  @if (trip().dateRange; as dateRange) {
+    <p class="trip-date">{{ dateRange }}</p>
+  }
+  @if (trip().route; as route) {
+    <p class="trip-route">{{ route }}</p>
+  }
+
+  @if (trip().transportLabel || trip().number || trip().duration || trip().carrier) {
+    <div class="trip-meta">
+      @if (trip().transportLabel; as transportLabel) {
+        <span>{{ transportLabel }}</span>
+      }
+      @if (trip().number; as number) {
+        <span>{{ number }}</span>
+      }
+      @if (trip().duration; as duration) {
+        <span>{{ duration }}</span>
+      }
+      @if (trip().carrier; as carrier) {
+        <span>{{ carrier }}</span>
+      }
+    </div>
+  }
+</article>

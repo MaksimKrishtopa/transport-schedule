@@ -1,0 +1,46 @@
+<div class="field">
+  <input
+    type="text"
+    role="combobox"
+    autocomplete="off"
+    [attr.aria-expanded]="state.status !== 'closed'"
+    [attr.aria-label]="placeholder()"
+    [placeholder]="placeholder()"
+    [value]="query()"
+    (input)="onInput($event)"
+    (focus)="onFocus()"
+    (blur)="onBlur()"
+  />
+
+  @if (state.status !== 'closed') {
+    <div class="suggest" role="listbox">
+      @switch (state.status) {
+        @case ('loading') {
+          <p class="suggest-status">Поиск…</p>
+        }
+        @case ('empty') {
+          <p class="suggest-status">Ничего не найдено</p>
+        }
+        @case ('error') {
+          <p class="suggest-status suggest-error">{{ state.message }}</p>
+        }
+        @case ('results') {
+          @for (point of state.items; track point.code) {
+            <button
+              type="button"
+              class="suggest-item"
+              role="option"
+              (mousedown)="$event.preventDefault()"
+              (click)="selectPoint(point)"
+            >
+              <span class="suggest-title">{{ point.title }}</span>
+              @if (point.subtitle) {
+                <span class="suggest-subtitle">{{ point.subtitle }}</span>
+              }
+            </button>
+          }
+        }
+      }
+    </div>
+  }
+</div>
